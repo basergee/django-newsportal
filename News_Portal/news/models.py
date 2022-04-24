@@ -28,6 +28,15 @@ class Post(models.Model):
     content = models.TextField()
     rank = models.IntegerField(default=0)
 
+    def like(self):
+        self.rank += 1
+        self.save()
+
+    def dislike(self):
+        if self.rank > 0:
+            self.rank -= 1
+            self.save()
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -40,3 +49,12 @@ class Comment(models.Model):
     content = models.TextField()
     creation_time = models.DateTimeField(auto_now_add=True)
     rank = models.IntegerField(default=0)
+
+    def like(self):
+        self.rank += 1
+        self.save()
+
+    def dislike(self):
+        if self.rank > 0:
+            self.rank -= 1
+            self.save()
