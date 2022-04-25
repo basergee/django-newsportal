@@ -63,6 +63,7 @@ p3 = Post.objects.create(
 )
 ```
 
+
 5. Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
 ```python
 p1.categories.add(Category.objects.get(name='наука'))
@@ -73,6 +74,7 @@ p2.categories.add(Category.objects.get(name='наука'))
 
 p3.categories.add(Category.objects.get(name='наука'))
 ```
+
 
 6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 
@@ -100,6 +102,7 @@ for _ in range(10):
 
 ```
 
+
 7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 ```python
 import random
@@ -122,6 +125,7 @@ for _ in range(100):
         c.dislike()
 
 ```
+
 
 8. Обновить рейтинги пользователей.
 ```python
@@ -148,6 +152,7 @@ for user in User.objects.all():
     Author.objects.get(user=user).update_rating(user_rating)
 ```
 
+
 9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
 ```python
 from news.models import Author
@@ -155,6 +160,7 @@ from news.models import Author
 # Сортируем в порядке убывания рейтинга
 Author.objects.all().order_by('-rank').values('user__username', 'rank')[0]
 ```
+
 
 10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
 ```python
@@ -175,6 +181,7 @@ print(
     '\nПревью: ', posts_sorted[0].preview()
 )
 ```
+
 
 11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
 ```python
