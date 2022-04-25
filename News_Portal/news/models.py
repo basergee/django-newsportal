@@ -41,6 +41,9 @@ class Post(models.Model):
             self.rank -= 1
             self.save()
 
+    def preview(self):
+        return self.content[:124] + '...'
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
