@@ -177,4 +177,14 @@ print(
 ```
 
 11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+```python
+from news.models import Post
 
+best_post = Post.objects.all().order_by('-rank')[0]
+best_post.comment_set.all().values(
+    'creation_time',
+    'user__author__user__username',
+    'rank',
+    'content'
+)
+```
