@@ -157,7 +157,24 @@ Author.objects.all().order_by('-rank').values('user__username', 'rank')[0]
 ```
 
 10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+```python
+from news.models import Post
 
+posts_sorted = Post.objects.all().order_by('-rank')
+best_post = posts_sorted.values(
+    'creation_time',
+    'author__user__username',
+    'rank',
+    'title'
+)[0]
+print(
+    'Время добавления: ', best_post.get('creation_time').strftime("%m/%d/%Y, %H:%M:%S"),
+    '\nИмя автора: ', best_post.get('author__user__username'),
+    '\nРейтинг: ', best_post.get('rank'),
+    '\nЗаголовок', best_post.get('title'),
+    '\nПревью: ', posts_sorted[0].preview()
+)
+```
 
 11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
 
