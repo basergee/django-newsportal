@@ -6,6 +6,10 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rank = models.IntegerField(default=0)
 
+    def update_rating(self, rating: int):
+        self.rank = rating
+        self.save()
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
