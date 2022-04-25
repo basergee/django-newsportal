@@ -124,7 +124,29 @@ for _ in range(100):
 ```
 
 8. Обновить рейтинги пользователей.
+```python
+from django.contrib.auth.models import User
+from news.models import Author, Post, Comment
 
+# Перебираем всех пользователй в таблице User
+for user in User.objects.all():
+    # Найдем каждую статью, где он автор
+    user_posts = Post.objects.filter(author__user=user)
+    user_rating = 0
+    for p in user_posts:
+        user_rating += p.rank * 3
+        # Найдем все комментарии к этой статье автора и добавим их рейтинг
+        # к общему рейтингу
+        comments = Comment.objects.filter(post=p)
+        for c in comments:
+            user_rating += c.rank
+    # Найдем все комментарии самого автора и добавим их рейтинг к общему
+    user_comments = Comment.objects.filter(user=user)
+    for c in user_comments:
+        user_rating += c.rank
+    # Обновляем рейтинг пользователя
+    Author.objects.get(user=user).update_rating(user_rating)
+```
 
 9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
 
