@@ -1,10 +1,18 @@
 Что вы должны сделать в консоли Django?
 
+Перед выполнением команд импортируем необходимые нам классы и модули.
+
+```python
+import random
+
+from django.contrib.auth.models import User
+
+from news.models import Author, Category, Comment, Post
+```
+
 1. Создать двух пользователей (с помощью метода User.objects.create_user('username')).
 
 ```python
-from django.contrib.auth.models import User
-
 User.objects.create_user('demo_user_1')
 User.objects.create_user('demo_user_2')
 ```
@@ -12,8 +20,6 @@ User.objects.create_user('demo_user_2')
 2. Создать два объекта модели Author, связанные с пользователями.
 
 ```python
-from news.models import Author
-
 Author.objects.create(user=User.objects.get(username='demo_user_1'))
 Author.objects.create(user=User.objects.get(username='demo_user_2'))
 ```
@@ -22,7 +28,6 @@ Author.objects.create(user=User.objects.get(username='demo_user_2'))
 3. Добавить 4 категории в модель Category.
 
 ```python
-from news.models import Category
 Category.objects.create(name='наука')
 Category.objects.create(name='спорт')
 Category.objects.create(name='политика')
@@ -33,8 +38,6 @@ Category.objects.create(name='образование')
 4. Добавить 2 статьи и 1 новость.
 
 ```python
-from news.models import Post
-
 # Добавляем первую статью
 p1 = Post.objects.create(
     author = Author.objects.get(pk=1),
@@ -79,10 +82,6 @@ p3.categories.add(Category.objects.get(name='наука'))
 6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 
 ```python
-import random
-
-from news.models import Comment
-
 comment_texts = [
     "Отлично",
     "Хорошо",
@@ -99,17 +98,12 @@ for _ in range(10):
         user=commentators[random.randint(0, len(commentators) - 1)],
         content = comment_texts[random.randint(0, len(comment_texts) - 1)]
     )
-
 ```
 
 
 7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
+
 ```python
-import random
-
-from news.models import Post
-from news.models import Comment
-
 posts = Post.objects.all()
 comments = Comment.objects.all()
 
@@ -123,15 +117,11 @@ for _ in range(100):
     else:
         p.dislike()
         c.dislike()
-
 ```
 
 
 8. Обновить рейтинги пользователей.
 ```python
-from django.contrib.auth.models import User
-from news.models import Author, Post, Comment
-
 # Перебираем всех пользователй в таблице User
 for user in User.objects.all():
     # Найдем каждую статью, где он автор
@@ -154,18 +144,16 @@ for user in User.objects.all():
 
 
 9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
-```python
-from news.models import Author
 
+```python
 # Сортируем в порядке убывания рейтинга
 Author.objects.all().order_by('-rank').values('user__username', 'rank')[0]
 ```
 
 
 10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
-```python
-from news.models import Post
 
+```python
 posts_sorted = Post.objects.all().order_by('-rank')
 best_post = posts_sorted.values(
     'creation_time',
@@ -185,8 +173,6 @@ print(
 
 11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
 ```python
-from news.models import Post
-
 best_post = Post.objects.all().order_by('-rank')[0]
 best_post.comment_set.all().values(
     'creation_time',
