@@ -22,4 +22,3 @@ class NewsDetail(DetailView):
     model = Post
     template_name = 'news_detail.html'
     context_object_name = 'news_detail'
-    pk_url_kwarg = 'id'
