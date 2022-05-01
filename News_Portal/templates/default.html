@@ -40,9 +40,12 @@
         <div class="container">
             <div class="text-center mt-5">
                 {% block content %}
-
-                {{news_list}}
-
+                <h1>Все новости</h1>
+                {% if news_list %}
+                    {{news_list}}
+                {% else %}
+                <h2>Новостей нет!</h2>
+                {% endif %}
                 {% endblock content %}
             </div>
         </div>
