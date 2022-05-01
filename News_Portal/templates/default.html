@@ -42,7 +42,21 @@
                 {% block content %}
                 <h1>Все новости</h1>
                 {% if news_list %}
-                    {{news_list}}
+                    <table>
+                        <!-- Выводим заголовки столбцов таблицы -->
+                        <tr>
+                            <td>Заголовок</td>
+                            <td>Дата публикации</td>
+                            <td>Содержание</td>
+                        </tr>
+                    {% for n in news_list %}
+                        <tr>
+                            <td>{{ n.title }}</td>
+                            <td>{{ n.creation_time }}</td>
+                            <td>{{ n.content }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
                 {% else %}
                 <h2>Новостей нет!</h2>
                 {% endif %}
