@@ -139,7 +139,10 @@ for user in User.objects.all():
     for c in user_comments:
         user_rating += c.rank
     # Обновляем рейтинг пользователя
-    Author.objects.get(user=user).update_rating(user_rating)
+    # Только авторы имеют рейтинг, поэтому проверяем, что пользователь user
+    # есть в базе авторов
+    if Author.objects.filter(user=user).exists():
+        Author.objects.get(user=user).update_rating(user_rating)
 ```
 
 
