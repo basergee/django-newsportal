@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         {% load static %}
+        {% load custom_filters %}
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -51,7 +52,7 @@
                         </tr>
                     {% for n in news_list %}
                         <tr>
-                            <td>{{ n.title }}</td>
+                            <td>{{ n.title | censor }}</td>
                             <td>{{ n.creation_time }}</td>
                             <td>{{ n.content | truncatechars:20 }}</td>
                         </tr>
