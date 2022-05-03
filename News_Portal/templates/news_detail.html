@@ -2,6 +2,10 @@
 
 {% load custom_filters %}
 
+{% block title %}
+{{news_detail.title | censor}}
+{% endblock title %}
+
 {% block content %}
 <h1>
     {{news_detail.title | censor}}
