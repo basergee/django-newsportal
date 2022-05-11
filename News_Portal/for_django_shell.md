@@ -184,3 +184,23 @@ best_post.comment_set.all().values(
     'content'
 )
 ```
+
+
+12. Заполним базу статьями и новостями для демонстрации пагинации
+```python
+for i in range(4, 60):
+    title = 'Заголовок №' + str(i)
+    text = 'Текст №' + str(i)
+    text = text * 20
+    p = Post.objects.create(
+        author = Author.objects.get(pk= 1 if i % 2 == 0 else 2),
+        post_type = Post.article if random.randint(0, 10) > 5 else Post.news,
+        title = title,
+        content = text
+    )
+    cat_1 = random.randint(1, 5)
+    p.categories.add(Category.objects.get(pk=cat_1))
+    cat_2 = random.randint(1, 5)
+    if cat_1 != cat_2:
+        p.categories.add(Category.objects.get(pk=cat_2))
+```
