@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Post
 from .filters import NewsFilter
@@ -52,13 +52,7 @@ class NewsSearch(ListView):
         return context
 
 
-def create_post(request):
-    form = PostForm()
-
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/news/')
-
-    return render(request, 'post_create.html', {'form': form})
+class PostCreate(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_create.html'
