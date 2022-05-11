@@ -9,8 +9,28 @@
 {% block content %}
     <form action="" method="get">
        {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
-       {# { filterset.form.as_p } #}
+       {{ search_results.form.as_p }}
        {# Добавим кнопку отправки данных формы #}
        <input type="submit" value="Найти" />
    </form>
+
+    {% if news_search_results %}
+        <table>
+            <!-- Выводим заголовки столбцов таблицы -->
+            <tr>
+                <td>Заголовок</td>
+                <td>Дата публикации</td>
+                <td>Содержание</td>
+            </tr>
+        {% for n in news_search_results %}
+            <tr>
+                <td>{{ n.title | censor }}</td>
+                <td>{{ n.creation_time }}</td>
+                <td>{{ n.content | truncatechars:20 }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+    <h2>По запросу ничего не найдено!</h2>
+    {% endif %}
 {% endblock content %}
