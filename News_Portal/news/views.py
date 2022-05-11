@@ -94,10 +94,10 @@ class PostCreate(CreateView):
         # В зависимости от адреса устанавливаем тип посту перед сохранением
         post = form.save(commit=False)
         if self.request.path == '/articles/create/':
-            print("Создаем статью")
+            # Мы создаем статью
             post.post_type = 'AR'
         elif self.request.path == '/news/create/':
-            print("Создаем новость")
+            # Мы создаем новость
             post.post_type = 'NE'
 
         return super().form_valid(form)
