@@ -10,7 +10,7 @@
         <meta name="author" content="" />
         <title>
             {% block title %}
-            Все новости
+                Все новости
             {% endblock title %}
         </title>
         <!-- Favicon-->
@@ -45,48 +45,47 @@
         <div class="container">
             <div class="text-center mt-5">
                 {% block content %}
-                <h1>Все новости</h1>
-                {% if news_list %}
-                    <table>
-                        <!-- Выводим заголовки столбцов таблицы -->
-                        <tr>
-                            <td>Заголовок</td>
-                            <td>Дата публикации</td>
-                            <td>Содержание</td>
-                        </tr>
-                    {% for n in news_list %}
-                        <tr>
-                            <td>{{ n.title | censor }}</td>
-                            <td>{{ n.creation_time }}</td>
-                            <td>{{ n.content | truncatechars:20 }}</td>
-                        </tr>
-                    {% endfor %}
-                    </table>
-                {% else %}
-                <h2>Новостей нет!</h2>
-                {% endif %}
-
-                {# Информация о предыдущих страницах #}
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">1</a>
-                    {% if page_obj.previous_page_number != 1 %}
-                        ...
-                        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                    <h1>Все новости</h1>
+                    {% if news_list %}
+                        <table>
+                            <!-- Выводим заголовки столбцов таблицы -->
+                            <tr>
+                                <td>Заголовок</td>
+                                <td>Дата публикации</td>
+                                <td>Содержание</td>
+                            </tr>
+                        {% for n in news_list %}
+                            <tr>
+                                <td>{{ n.title | censor }}</td>
+                                <td>{{ n.creation_time }}</td>
+                                <td>{{ n.content | truncatechars:20 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    {% else %}
+                    <h2>Новостей нет!</h2>
                     {% endif %}
-                {% endif %}
 
-                {# Информация о текущей странице #}
-                {{ page_obj.number }}
-
-                {# Информация о следующих страницах #}
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-                    {% if paginator.num_pages != page_obj.next_page_number %}
-                        ...
-                        <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                    {# Информация о предыдущих страницах #}
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">1</a>
+                        {% if page_obj.previous_page_number != 1 %}
+                            ...
+                            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
 
+                    {# Информация о текущей странице #}
+                    {{ page_obj.number }}
+
+                    {# Информация о следующих страницах #}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                        {% if paginator.num_pages != page_obj.next_page_number %}
+                            ...
+                            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                        {% endif %}
+                    {% endif %}
                 {% endblock content %}
             </div>
         </div>

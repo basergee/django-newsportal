@@ -3,17 +3,17 @@
 {% load custom_filters %}
 
 {% block title %}
-{{news_detail.title | censor}}
+    {{news_detail.title | censor}}
 {% endblock title %}
 
 {% block content %}
-<h1>
-    {{news_detail.title | censor}}
-</h1>
-<p>
-    {{news_detail.content | censor}}
-</p>
-<p>
-    {{publication_date}}
-</p>
+    <h1>
+        {{news_detail.title | censor}}
+    </h1>
+    <p>
+        {{news_detail.content | censor}}
+    </p>
+    <p>
+        {{publication_date}}
+    </p>
 {% endblock content %}
