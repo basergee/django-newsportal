@@ -59,6 +59,22 @@ class PostCreate(CreateView):
     form_class = PostForm
     template_name = 'post_create.html'
 
+    def form_valid(self, form):
+        # Узнаем, с какой страницы пришел запрос
+        # В данный момент запрос может придти с двух страниц:
+        # 1. /articles/create/
+        # 2. /news/create/
+        # В зависимости от адреса устанавливаем тип посту перед сохранением
+        post = form.save(commit=False)
+        if self.request.path == '/articles/create/':
+            print("Создаем статью")
+            post.post_type = 'AR'
+        elif self.request.path == '/news/create/':
+            print("Создаем новость")
+            post.post_type = 'NE'
+
+        return super().form_valid(form)
+
 
 class PostEdit(UpdateView):
     model = Post
