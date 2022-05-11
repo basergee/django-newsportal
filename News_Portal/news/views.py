@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from .models import Post
 from .filters import NewsFilter
@@ -53,6 +53,12 @@ class NewsSearch(ListView):
 
 
 class PostCreate(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_create.html'
+
+
+class PostEdit(UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
