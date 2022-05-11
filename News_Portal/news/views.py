@@ -43,6 +43,8 @@ class NewsSearch(ListView):
     model = Post
     template_name = 'news_search.html'
     context_object_name = 'news_search_results'
+    # Ограничиваем количество новостей на странице
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()

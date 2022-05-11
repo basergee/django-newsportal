@@ -22,3 +22,11 @@ def censor(text_to_filter):
     for bw in bad_words:
         filtered_text = filtered_text.replace(bw, '*' * len(bw))
     return filtered_text
+
+
+@register.simple_tag(takes_context=True)
+def url_replace(context, **kwargs):
+    d = context['request'].GET.copy()
+    for k, v in kwargs.items():
+        d[k] = v
+    return d.urlencode()
