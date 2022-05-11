@@ -31,3 +31,8 @@ class NewsDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['publication_date'] = self.object.creation_time.strftime('%d.%m.%Y')
         return context
+
+
+class NewsSearch(ListView):
+    model = Post
+    template_name = 'news_search.html'
