@@ -50,7 +50,7 @@ class NewsSearch(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_results'] = self.filterset
+        context['search_form'] = self.filterset
         return context
 
 

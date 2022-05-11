@@ -9,7 +9,7 @@
 {% block content %}
     <form action="" method="get">
        {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
-       {{ search_results.form.as_p }}
+       {{ search_form.form.as_p }}
        {# Добавим кнопку отправки данных формы #}
        <input type="submit" value="Найти" />
    </form>
