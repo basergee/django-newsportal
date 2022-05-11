@@ -8,5 +8,5 @@ class NewsFilter(FilterSet):
         model = Post
         fields = {
             'title': ['icontains'],
-            'post_type': ['exact'],
+            'categories': ['exact'],
         }

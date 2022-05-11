@@ -1,0 +1,14 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Создать пост
+{% endblock title %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {# Добавим кнопку отправки данных формы #}
+        <input type="submit" value="Сохранить" />
+    </form>
+{% endblock content %}
