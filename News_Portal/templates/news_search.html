@@ -10,8 +10,10 @@
     <form action="" method="get">
         {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
         {{ search_form.form.as_p }}
+        <label for="creation_date">Публикации после указанной даты:</label>
+        <input type="date" id="creation_date" name="creation_date"/>
         {# Добавим кнопку отправки данных формы #}
-        <input type="submit" value="Найти" />
+        <p><input type="submit" value="Найти" /></p>
    </form>
 
     {% if news_search_results %}

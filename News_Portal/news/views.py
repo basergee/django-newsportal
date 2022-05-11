@@ -3,6 +3,7 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import (ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 
@@ -45,8 +46,34 @@ class NewsSearch(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # Не знаю, как добавить преобразование в класс фильтра, поэтому пока
+        # сделаю так.
+        #
+        # Сперва применим фильтр NewsFilter. Он вернет отфильтрованные
+        # значения. Затем мы отфильтруем эти значения следующим образом.
+        #
+        # Из строки GET-запроса выделим дату публикации.
+        # Затем преобразуем ее в тип datetime, потому что можно применить
+        # фильтр 'date__gt' к полю 'creation_time'. Таким образом останутся
+        # только записи позже указанной даты. Их и вернем.
+        #
+        # Также возможны два случая, по которым мы можем определить, что
+        # пользователь не ввел дату или ввел ее неправильно:
+        # 1 - в GET-запросе нет параметра creation_date;
+        # 2 - параметра creation_date пустой или неправильный.
+        # В обоих случаях считаем, что по дате фильтровать не надо.
+
         self.filterset = NewsFilter(self.request.GET, queryset)
-        return self.filterset.qs
+
+        try:
+            dt = datetime.strptime(self.request.GET['creation_date'], '%Y-%m-%d')
+        except MultiValueDictKeyError:
+            return self.filterset.qs
+        except ValueError:
+            return self.filterset.qs
+
+        return self.filterset.qs.filter(creation_time__date__gt=dt)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
