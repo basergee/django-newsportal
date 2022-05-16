@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView
 
 from .views import (NewsList, NewsDetail, NewsSearch,
                     PostCreate, PostEdit, PostDelete,
-                    UserEdit)
+                    UserEdit, BaseRegisterView)
 
 
 urlpatterns = [
@@ -16,6 +16,9 @@ urlpatterns = [
    path('edit_user/<int:pk>/', UserEdit.as_view()),
 
     path('login/',
-         LoginView.as_view(template_name='../templates/login.html'),
-         name='login'),
+        LoginView.as_view(template_name='../templates/login.html'),
+        name='login'),
+    path('signup/',
+        BaseRegisterView.as_view(template_name='../templates/signup.html'),
+        name='signup'),
 ]

@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post
 from .filters import NewsFilter
-from .forms import PostForm, UserEditForm
+from .forms import PostForm, UserEditForm, BaseRegisterForm
 
 
 # Create your views here.
@@ -123,4 +123,10 @@ class UserEdit(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserEditForm
     template_name = 'post_create.html'
+    success_url = reverse_lazy('news_list')
+
+
+class BaseRegisterView(CreateView):
+    model = User
+    form_class = BaseRegisterForm
     success_url = reverse_lazy('news_list')
