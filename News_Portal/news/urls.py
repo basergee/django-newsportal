@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 from .views import (NewsList, NewsDetail, NewsSearch,
                     PostCreate, PostEdit, PostDelete,
-                    UserEdit, BaseRegisterView)
+                    UserEdit, BaseRegisterView, upgrade_me)
 
 
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     path('signup/',
         BaseRegisterView.as_view(template_name='../templates/signup.html'),
         name='signup'),
+    path('edit_user/<int:pk>/upgrade/', upgrade_me, name='upgrade')
 ]
