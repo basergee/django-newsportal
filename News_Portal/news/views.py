@@ -7,7 +7,8 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import (ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 
 from .models import Post
 from .filters import NewsFilter
@@ -85,10 +86,11 @@ class NewsSearch(ListView):
         return context
 
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
+    permission_required = ('news.add_Post',)
 
     def form_valid(self, form):
         # Узнаем, с какой страницы пришел запрос
@@ -107,10 +109,11 @@ class PostCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostEdit(UpdateView):
+class PostEdit(PermissionRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
+    permission_required = ('news.change_Post',)
 
 
 class PostDelete(DeleteView):
