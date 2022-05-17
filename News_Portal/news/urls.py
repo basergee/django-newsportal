@@ -1,5 +1,5 @@
 from django.urls import path
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 from .views import (NewsList, NewsDetail, NewsSearch,
                     PostCreate, PostEdit, PostDelete,
@@ -18,6 +18,9 @@ urlpatterns = [
     path('login/',
         LoginView.as_view(template_name='../templates/login.html'),
         name='login'),
+    path('logout/',
+        LogoutView.as_view(template_name='../templates/logout.html'),
+        name='logout'),
     path('signup/',
         BaseRegisterView.as_view(template_name='../templates/signup.html'),
         name='signup'),
