@@ -125,7 +125,7 @@ class PostDelete(DeleteView):
 class UserEdit(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserEditForm
-    template_name = 'post_create.html'
+    template_name = 'user_profile.html'
     success_url = reverse_lazy('news_list')
 
 
