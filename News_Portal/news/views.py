@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.contrib.auth.decorators import login_required
 
-from .models import Post
+from .models import Post, Author
 from .filters import NewsFilter
 from .forms import PostForm, UserEditForm, BaseRegisterForm
 
@@ -154,4 +154,5 @@ def upgrade_me(request, **kwargs):
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
+        Author.objects.create(user=user)
     return redirect('/news')
