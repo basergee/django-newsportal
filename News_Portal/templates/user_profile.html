@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Страница профиля авторизованного пользователя</h1>
+    <h1>Добро пожаловать, {{ user.username }}</h1>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
