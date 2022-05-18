@@ -31,7 +31,8 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="/news/edit_user/{{ user.pk }}">Профиль</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href="/accounts/login/">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/news/login/">Войти (моя форма)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/accounts/login/">Войти (allauth)</a></li>
                         {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
