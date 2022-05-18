@@ -153,7 +153,7 @@ SITE_ID = 1
 
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = 'news/'
+LOGIN_REDIRECT_URL = '/news/'
 
 
 ACCOUNT_EMAIL_REQUIRED = True
