@@ -91,7 +91,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
-    permission_required = ('news.add_Post',)
+    permission_required = ('news.add_post',)
 
     def form_valid(self, form):
         # Узнаем, с какой страницы пришел запрос
@@ -114,7 +114,7 @@ class PostEdit(PermissionRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
-    permission_required = ('news.change_Post',)
+    permission_required = ('news.change_post',)
 
 
 class PostDelete(DeleteView):
