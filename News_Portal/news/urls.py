@@ -8,7 +8,7 @@ from .views import (NewsList, NewsDetail, NewsSearch,
 
 urlpatterns = [
    path('', NewsList.as_view(), name='news_list'),
-   path('<int:pk>', NewsDetail.as_view(), name='news_details'),
+   path('<int:pk>/', NewsDetail.as_view(), name='news_details'),
    path('search/', NewsSearch.as_view()),
    path('create/', PostCreate.as_view()),
    path('<int:pk>/edit/', PostEdit.as_view()),
