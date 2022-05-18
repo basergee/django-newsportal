@@ -8,7 +8,8 @@ from django.views.generic import (ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        PermissionRequiredMixin)
+                                        PermissionRequiredMixin,
+                                        UserPassesTestMixin)
 from django.contrib.auth.decorators import login_required
 
 from .models import Post, Author
@@ -123,7 +124,7 @@ class PostDelete(DeleteView):
     success_url = reverse_lazy('news_list')
 
 
-class UserEdit(LoginRequiredMixin, UpdateView):
+class UserEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     form_class = UserEditForm
     template_name = 'user_profile.html'
@@ -134,6 +135,16 @@ class UserEdit(LoginRequiredMixin, UpdateView):
         context['is_not_author'] = not self.request.user.groups.filter(
             name='authors').exists()
         return context
+
+    # Запрещаем авторизованному пользователю просматривать и править профили
+    # других пользователей. Без этого пользователь мог указать ключ другого
+    # пользователя в url и получить доступ к его профилю
+    # Путь к странице имеет вид: /news/edit_user/5/, где 5 -- это ключ в
+    # базе пользователей. Авторизованный пользователь должен иметь доступ
+    # только к своему профилю. Если он пробует получить доступ к чужому,
+    # то будет ошибка '403 Forbidden'
+    def test_func(self):
+        return int(self.request.path.split('/')[-2]) == self.request.user.pk
 
 
 class BaseRegisterView(CreateView):
