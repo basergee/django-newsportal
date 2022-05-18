@@ -141,6 +141,12 @@ class BaseRegisterView(CreateView):
     form_class = BaseRegisterForm
     success_url = reverse_lazy('news_list')
 
+    def form_valid(self, form):
+        # Каждый новый пользователь добавляется в группу 'common'
+        user = form.save()
+        user.groups.add(Group.objects.get(name='common'))
+        return super().form_valid(form)
+
 
 @login_required
 def upgrade_me(request, **kwargs):
