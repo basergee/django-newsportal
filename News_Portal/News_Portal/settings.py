@@ -149,6 +149,15 @@ STATICFILES_DIRS = [
 ]
 
 
+EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты
+EMAIL_PORT = 465  # порт smtp сервера
+EMAIL_HOST_USER = ''  # имя пользователя. Для Яндекса -- это всё то, что идёт до собаки
+EMAIL_HOST_PASSWORD = ''  # пароль от почты
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = ''  # почта, с которой будут отправляться письма
+
+
 SITE_ID = 1
 
 
