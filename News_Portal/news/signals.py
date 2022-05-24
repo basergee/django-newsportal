@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from News_Portal.settings import DEFAULT_FROM_EMAIL
 from .models import PostCategory
@@ -43,3 +44,19 @@ def notify_subscribers_new_post(instance, action, **kwargs):
                     from_email=DEFAULT_FROM_EMAIL,
                     recipient_list=[f'{s.email}']
                 )
+
+                url = 'http://127.0.0.1/news/' + str(instance.pk)
+                print('url: ', url)
+                # html_content = render_to_string(
+                #     'notify_subscribers_about_new_post.html',
+                #     {'new_post_url': url}
+                # )
+                #
+                # msg = EmailMultiAlternatives(
+                #     subject=email_subject,
+                #     body=message,
+                #     from_email=DEFAULT_FROM_EMAIL,
+                #     to=[f'{s.email}']
+                # )
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
