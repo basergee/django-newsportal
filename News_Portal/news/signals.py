@@ -35,28 +35,27 @@ def notify_subscribers_new_post(instance, action, **kwargs):
 
         for c in instance.categories.all():
             for s in c.subscribers.all():
+                url = 'http://127.0.0.1/news/' + str(instance.pk)
                 message = f'Здравствуй, {s.username}. Новая статья в твоём ' \
                           f'любимом разделе: "{c.name}"!\n\n' + \
-                          email_subject + '\n\n' + email_text
-                send_mail(
-                    subject=email_subject,
-                    message=message,
-                    from_email=DEFAULT_FROM_EMAIL,
-                    recipient_list=[f'{s.email}']
+                          email_subject + '\n\n' + email_text + '\n' + url
+
+                html_content = render_to_string(
+                    '../templates/notify_subscribers_about_new_post.html',
+                    {
+                        'subscriber': s.username,
+                        'category': c.name,
+                        'post_title': email_subject,
+                        'post_text':email_text,
+                        'url': url,
+                    }
                 )
 
-                url = 'http://127.0.0.1/news/' + str(instance.pk)
-                print('url: ', url)
-                # html_content = render_to_string(
-                #     'notify_subscribers_about_new_post.html',
-                #     {'new_post_url': url}
-                # )
-                #
-                # msg = EmailMultiAlternatives(
-                #     subject=email_subject,
-                #     body=message,
-                #     from_email=DEFAULT_FROM_EMAIL,
-                #     to=[f'{s.email}']
-                # )
-                # msg.attach_alternative(html_content, "text/html")
-                # msg.send()
+                msg = EmailMultiAlternatives(
+                    subject=email_subject,
+                    body=message,
+                    from_email=DEFAULT_FROM_EMAIL,
+                    to=[f'{s.email}']
+                )
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
