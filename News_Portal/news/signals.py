@@ -11,14 +11,15 @@ from .models import PostCategory
 # Отправим письмо пользователю при регистрации. Пользователь успешно
 # зарегистрировался, когда запись о нем добавилась в базу User
 @receiver(post_save, sender=User)
-def notify_user_created(sender, instance, **kwargs):
-    send_mail(
-        subject='Добро пожаловать',
-        message=f'Здравствуйте, {instance.username}. Вы успешно '
-                f'зарегистрировались на сайте',
-        from_email=DEFAULT_FROM_EMAIL,
-        recipient_list=[f'{instance.email}']
-    )
+def notify_user_created(sender, instance, created, **kwargs):
+    if created:
+        send_mail(
+            subject='Добро пожаловать',
+            message=f'Здравствуйте, {instance.username}. Вы успешно '
+                    f'зарегистрировались на сайте',
+            from_email=DEFAULT_FROM_EMAIL,
+            recipient_list=[f'{instance.email}']
+        )
 
 
 # Отправим письмо всем пользователям, подписанным на категорию, при добавлении
