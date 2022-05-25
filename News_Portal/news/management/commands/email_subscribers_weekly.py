@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import logging
 
 from django.conf import settings
@@ -8,13 +10,59 @@ from django.core.management.base import BaseCommand
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+from News_Portal.settings import DEFAULT_FROM_EMAIL
+from news.models import Post, Category
 
 logger = logging.getLogger(__name__)
 
 
 def my_job():
-    # Your job processing logic here...
-    print('Hello')
+    # Все посты за прошедшую неделю
+    week_ago = datetime.now() - timedelta(weeks=1)
+
+    # пройдем по всем пользователям и направим каждому уведомление
+    for user in User.objects.all():
+        # Все посты за неделю в категориях, на которые подписан пользователь
+        week_posts = Post.objects.filter(
+            creation_time__date__gte=week_ago,
+            categories__in=Category.objects.filter(subscribers=user)
+        )
+
+        # Пропустим, если интересующих нас статей нет
+        if not week_posts:
+            continue
+
+        urls = ['http://127.0.0.1/news/' + str(week_posts[i].pk)
+                for i in range(len(week_posts))]
+
+        message = f'Здравствуй, {user.username}. Новые статьи в твоих любимых ' \
+                  f'разделах за неделю: \n\n'
+
+        for url in urls:
+            message += url + '\n'
+
+        print(message)
+
+        # html_content = render_to_string(
+        #     '../templates/notify_subscribers_about_new_post.html',
+        #     {
+        #         'subscriber': user.username,
+        #         'week_posts': week_posts,
+        #     }
+        # )
+        #
+        # msg = EmailMultiAlternatives(
+        #     subject='Новые статьи за неделю',
+        #     body=message,
+        #     from_email=DEFAULT_FROM_EMAIL,
+        #     to=[f'{user.email}']
+        # )
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.send()
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
