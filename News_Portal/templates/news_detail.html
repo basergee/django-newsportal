@@ -14,6 +14,12 @@
         {{news_detail.content | censor}}
     </p>
     <p>
+        Категории:
+        {% for c in news_detail.categories.all %}
+        {{c.name}},
+        {% endfor %}
+    </p>
+    <p>
         {{publication_date}}
     </p>
 {% endblock content %}
