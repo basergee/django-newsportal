@@ -47,22 +47,22 @@ def my_job():
 
         print(message)
 
-        # html_content = render_to_string(
-        #     '../templates/notify_subscribers_about_new_post.html',
-        #     {
-        #         'subscriber': user.username,
-        #         'week_posts': week_posts,
-        #     }
-        # )
-        #
-        # msg = EmailMultiAlternatives(
-        #     subject='Новые статьи за неделю',
-        #     body=message,
-        #     from_email=DEFAULT_FROM_EMAIL,
-        #     to=[f'{user.email}']
-        # )
-        # msg.attach_alternative(html_content, "text/html")
-        # msg.send()
+        html_content = render_to_string(
+            '../templates/notify_subscribers_about_new_posts_weekly.html',
+            {
+                'subscriber': user.username,
+                'week_posts': week_posts,
+            }
+        )
+
+        msg = EmailMultiAlternatives(
+            subject='Новые статьи за неделю',
+            body=message,
+            from_email=DEFAULT_FROM_EMAIL,
+            to=[f'{user.email}']
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
