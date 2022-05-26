@@ -22,4 +22,7 @@
     <p>
         {{publication_date}}
     </p>
+    {% if user.is_authenticated %}
+    <p><button> <a href="subscribe/">Подписаться</a> </button></p>
+    {% endif %}
 {% endblock content %}

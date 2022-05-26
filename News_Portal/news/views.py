@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.auth.decorators import login_required
 
-from .models import Post, Author
+from .models import Post, Author, Category
 from .filters import NewsFilter
 from .forms import PostForm, UserEditForm, BaseRegisterForm
 
@@ -42,6 +42,13 @@ class NewsDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['publication_date'] = self.object.creation_time.strftime('%d.%m.%Y')
         return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        return redirect('/news')
 
 
 class NewsSearch(ListView):
@@ -166,4 +173,12 @@ def upgrade_me(request, **kwargs):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
         Author.objects.create(user=user)
+    return redirect('/news')
+
+
+def subscribe_me(request, **kwargs):
+    post_id = request.path.split('/')[-3]
+    post = Post.objects.get(pk=post_id)
+    for c in post.categories.all():
+        c.subscribers.add(request.user)
     return redirect('/news')
