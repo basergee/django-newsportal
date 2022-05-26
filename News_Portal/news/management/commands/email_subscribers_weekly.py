@@ -21,10 +21,10 @@ logger = logging.getLogger(__name__)
 
 
 def my_job():
-    # Все посты за прошедшую неделю
+    # Начальная дата, начиная с которой запросим посты из базы
     week_ago = datetime.now() - timedelta(weeks=1)
 
-    # пройдем по всем пользователям и направим каждому уведомление
+    # Пройдем по всем пользователям и направим каждому уведомление
     for user in User.objects.all():
         # Все посты за неделю в категориях, на которые подписан пользователь
         week_posts = Post.objects.filter(
@@ -39,8 +39,8 @@ def my_job():
         urls = ['http://127.0.0.1/news/' + str(week_posts[i].pk)
                 for i in range(len(week_posts))]
 
-        message = f'Здравствуй, {user.username}. Новые статьи в твоих любимых ' \
-                  f'разделах за неделю: \n\n'
+        message = f'Здравствуй, {user.username}. Новые статьи в твоих ' \
+                  f'любимых разделах за неделю: \n\n'
 
         for url in urls:
             message += url + '\n'
