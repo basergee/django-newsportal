@@ -26,7 +26,8 @@ def notify_user_created(sender, instance, created, **kwargs):
 # новой новости этой категории.
 # Вызов функции происходит два раза. Один раз с параметром action='pre_add',
 # второй раз с параметром action='post_add'. Обработаем только второй случай.
-@receiver(m2m_changed, sender=PostCategory)
+# Отключаем от сигнала записи в базу, чтобы проверить работу через celery
+# @receiver(m2m_changed, sender=PostCategory)
 def notify_subscribers_new_post(instance, action, **kwargs):
     if action == 'post_add':
         # Из instance можно получить информацию о посте.

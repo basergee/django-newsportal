@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Author, Category
 from .filters import NewsFilter
 from .forms import PostForm, UserEditForm, BaseRegisterForm
+from .tasks import email_subscribers_new_post
 
 
 # Create your views here.
@@ -115,7 +116,10 @@ class PostCreate(PermissionRequiredMixin, CreateView):
             # Мы создаем новость
             post.post_type = 'NE'
 
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        email_subscribers_new_post.delay(post.pk)
+
+        return response
 
 
 class PostEdit(PermissionRequiredMixin, UpdateView):
