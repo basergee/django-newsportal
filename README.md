@@ -24,3 +24,8 @@ StackOverflow
 Установил пакет gevent и стал запускать celery с дополнительным параметром:
 
 celery -A News_Portal worker -l INFO -P gevent
+
+# О запуске периодических задач с помощью Celery
+
+На Windows 10 запуск celery с ключом -B не работает. Необходим запуск и 
+настройка celery beat
